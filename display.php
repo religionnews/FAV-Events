@@ -11,16 +11,15 @@ class FAV_Event_Display{
         global $post;
         if(get_post_type() == $this->event_post_type){
             //now do the magic sauce
-            add_action('the_content', array($this, 'output_meta_display'));
+            add_filter('the_content', array($this, 'output_meta_display'));
             add_filter('rns_event_before_content', array($this, 'before_content_event_data'));
             add_filter('rns_event_after_content', array($this, 'after_content_event_data') );
         }
     }
 
     function output_meta_display($content){
-        echo apply_filters('rns_event_before_content', '');
-        echo $content;
-        echo apply_filters('rns_event_after_content', '');
+        $content = apply_filters('rns_event_before_content', '') . $content . apply_filters('rns_event_after_content', '');
+        return $content;
     }
 
     function before_content_event_data($incoming){
